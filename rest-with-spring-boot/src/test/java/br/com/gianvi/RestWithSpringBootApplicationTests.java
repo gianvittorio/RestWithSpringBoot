@@ -1,4 +1,4 @@
-package br.com.gianvittorio.demo;
+package br.com.gianvi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

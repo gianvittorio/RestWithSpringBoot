@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.Serializable;
 
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public class MyUnsupportedMathOperationException extends RuntimeException implements Serializable {
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class ResourceNotFoundException extends RuntimeException implements Serializable {
     private static final long serialVersionUID = -1334081625664317708L;
 
-    public MyUnsupportedMathOperationException(String ex) {
+    public ResourceNotFoundException(String ex) {
         super(ex);
     }
 }

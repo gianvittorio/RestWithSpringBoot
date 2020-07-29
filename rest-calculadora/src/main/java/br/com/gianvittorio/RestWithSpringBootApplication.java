@@ -6,10 +6,10 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan("br.com.gianvittorio")
-public class RestCalculadoraApplication {
+public class RestWithSpringBootApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RestCalculadoraApplication.class, args);
+        SpringApplication.run(RestWithSpringBootApplication.class, args);
     }
 
 }

@@ -1,6 +1,6 @@
-package br.com.gianvittorio.model.repository;
+package br.com.gianvittorio.data.model.repository;
 
-import br.com.gianvittorio.model.Person;
+import br.com.gianvittorio.data.model.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

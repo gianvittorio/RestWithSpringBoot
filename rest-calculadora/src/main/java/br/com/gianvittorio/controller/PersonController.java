@@ -1,6 +1,6 @@
 package br.com.gianvittorio.controller;
 
-import br.com.gianvittorio.model.Person;
+import br.com.gianvittorio.data.vo.PersonVO;
 import br.com.gianvittorio.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,22 +15,22 @@ public class PersonController {
     PersonService personService;
 
     @PostMapping
-    public Person create(@RequestBody Person person) {
+    public PersonVO create(@RequestBody PersonVO person) {
         return personService.create(person);
     }
 
     @GetMapping
-    public List<Person> findAll() {
+    public List<PersonVO> findAll() {
         return personService.findAll();
     }
 
     @GetMapping(value = "/{id}")
-    public Person findById(@PathVariable("id") Long id) throws Exception {
+    public PersonVO findById(@PathVariable("id") Long id) throws Exception {
         return personService.findById(id);
     }
 
     @PutMapping
-    public Person update(@RequestBody Person person) {
+    public PersonVO update(@RequestBody PersonVO person) {
         return personService.update(person);
     }
 

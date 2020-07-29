@@ -1,4 +1,4 @@
-package br.com.gianvittorio.model;
+package br.com.gianvittorio.data.model;
 
 import javax.persistence.*;
 import java.io.Serializable;

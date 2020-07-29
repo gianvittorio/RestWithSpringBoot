@@ -1,6 +1,6 @@
 package br.com.gianvittorio.controller;
 
-import br.com.gianvittorio.data.vo.PersonVO;
+import br.com.gianvittorio.data.vo.v1.PersonVO;
 import br.com.gianvittorio.data.vo.v2.PersonVOV2;
 import br.com.gianvittorio.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/api/person/v1")
 public class PersonController {
     @Autowired
     PersonService personService;

@@ -2,7 +2,7 @@ package br.com.gianvittorio.converter;
 
 import br.com.gianvittorio.converter.mocks.MockPerson;
 import br.com.gianvittorio.data.model.Person;
-import br.com.gianvittorio.data.vo.PersonVO;
+import br.com.gianvittorio.data.vo.v1.PersonVO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

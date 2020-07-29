@@ -2,7 +2,7 @@ package br.com.gianvittorio.service;
 
 import br.com.gianvittorio.converter.DozerConverter;
 import br.com.gianvittorio.converter.custom.PersonConverter;
-import br.com.gianvittorio.data.vo.PersonVO;
+import br.com.gianvittorio.data.vo.v1.PersonVO;
 import br.com.gianvittorio.data.vo.v2.PersonVOV2;
 import br.com.gianvittorio.exception.ResourceNotFoundException;
 import br.com.gianvittorio.data.model.Person;

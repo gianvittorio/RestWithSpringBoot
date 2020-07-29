@@ -1,7 +1,9 @@
 package br.com.gianvittorio.service;
 
 import br.com.gianvittorio.converter.DozerConverter;
+import br.com.gianvittorio.converter.custom.PersonConverter;
 import br.com.gianvittorio.data.vo.PersonVO;
+import br.com.gianvittorio.data.vo.v2.PersonVOV2;
 import br.com.gianvittorio.exception.ResourceNotFoundException;
 import br.com.gianvittorio.data.model.Person;
 import br.com.gianvittorio.data.model.repository.PersonRepository;
@@ -15,10 +17,20 @@ public class PersonService {
     @Autowired
     private PersonRepository repository;
 
+    @Autowired
+    PersonConverter converter;
+
     public PersonVO create(PersonVO person) {
         Person entity = DozerConverter.parseObject(person, Person.class);
 
         PersonVO vo = DozerConverter.parseObject(repository.save(entity), PersonVO.class);
+        return vo;
+    }
+
+    public PersonVOV2 createV2(PersonVOV2 person) {
+        Person entity = converter.convertVOToEntity(person);
+
+        PersonVOV2 vo = converter.convertEntityToVO(repository.save(entity));
         return vo;
     }
 

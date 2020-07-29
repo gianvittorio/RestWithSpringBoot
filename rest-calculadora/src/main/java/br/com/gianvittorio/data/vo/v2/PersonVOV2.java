@@ -1,16 +1,18 @@
-package br.com.gianvittorio.data.vo;
+package br.com.gianvittorio.data.vo.v2;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public class PersonVO implements Serializable {
-    private static final long serialVersionUID = -5682588825283278676L;
+public class PersonVOV2 implements Serializable {
+    private static final long serialVersionUID = -4869384160080082567L;
     private Long id;
     private String firstName;
     private String lastName;
     private String address;
     private String gender;
+    private Date birthday;
 
-    public PersonVO() {
+    public PersonVOV2() {
     }
 
     @Override
@@ -18,13 +20,14 @@ public class PersonVO implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PersonVO personVO = (PersonVO) o;
+        PersonVOV2 that = (PersonVOV2) o;
 
-        if (id != null ? !id.equals(personVO.id) : personVO.id != null) return false;
-        if (firstName != null ? !firstName.equals(personVO.firstName) : personVO.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(personVO.lastName) : personVO.lastName != null) return false;
-        if (address != null ? !address.equals(personVO.address) : personVO.address != null) return false;
-        return gender != null ? gender.equals(personVO.gender) : personVO.gender == null;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
+        if (address != null ? !address.equals(that.address) : that.address != null) return false;
+        if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
+        return birthday != null ? birthday.equals(that.birthday) : that.birthday == null;
     }
 
     @Override
@@ -34,6 +37,7 @@ public class PersonVO implements Serializable {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
         return result;
     }
 
@@ -75,5 +79,13 @@ public class PersonVO implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 }

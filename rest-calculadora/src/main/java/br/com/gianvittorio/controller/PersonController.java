@@ -1,6 +1,7 @@
 package br.com.gianvittorio.controller;
 
 import br.com.gianvittorio.data.vo.PersonVO;
+import br.com.gianvittorio.data.vo.v2.PersonVOV2;
 import br.com.gianvittorio.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,11 @@ public class PersonController {
     @PostMapping
     public PersonVO create(@RequestBody PersonVO person) {
         return personService.create(person);
+    }
+
+    @PostMapping("/v2")
+    public PersonVOV2 createV2(@RequestBody PersonVOV2 person) {
+        return personService.createV2(person);
     }
 
     @GetMapping

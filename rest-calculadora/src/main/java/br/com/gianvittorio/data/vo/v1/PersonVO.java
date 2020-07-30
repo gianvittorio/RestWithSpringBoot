@@ -1,60 +1,42 @@
 package br.com.gianvittorio.data.vo.v1;
 
+import br.com.gianvittorio.data.model.Person;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 
-//@JsonPropertyOrder({"id", "address", "first_name", "last_name", "gender"})
-public class PersonVO implements Serializable {
+@JsonPropertyOrder({"id", "address", "first_name", "last_name", "gender"})
+public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
     private static final long serialVersionUID = -5682588825283278676L;
-    private Long id;
 
-//    @JsonProperty("first_name")
+    @Mapping("id")
+    @JsonProperty("id")
+    private Long key;
+
+    //    @JsonProperty("first_name")
     private String firstName;
 
-//    @JsonProperty("last_name")
+    //    @JsonProperty("last_name")
     private String lastName;
 
     private String address;
 
-//    @JsonIgnore
+    //    @JsonIgnore
     private String gender;
 
     public PersonVO() {
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PersonVO personVO = (PersonVO) o;
-
-        if (id != null ? !id.equals(personVO.id) : personVO.id != null) return false;
-        if (firstName != null ? !firstName.equals(personVO.firstName) : personVO.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(personVO.lastName) : personVO.lastName != null) return false;
-        if (address != null ? !address.equals(personVO.address) : personVO.address != null) return false;
-        return gender != null ? gender.equals(personVO.gender) : personVO.gender == null;
+    public Long getKey() {
+        return key;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (gender != null ? gender.hashCode() : 0);
-        return result;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public String getFirstName() {
@@ -87,5 +69,31 @@ public class PersonVO implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        PersonVO personVO = (PersonVO) o;
+
+        if (key != null ? !key.equals(personVO.key) : personVO.key != null) return false;
+        if (firstName != null ? !firstName.equals(personVO.firstName) : personVO.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(personVO.lastName) : personVO.lastName != null) return false;
+        if (address != null ? !address.equals(personVO.address) : personVO.address != null) return false;
+        return gender != null ? gender.equals(personVO.gender) : personVO.gender == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (key != null ? key.hashCode() : 0);
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        return result;
     }
 }

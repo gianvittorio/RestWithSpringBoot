@@ -24,7 +24,7 @@ public class PersonService {
     private PersonRepository repository;
 
     @Autowired
-    PersonConverter converter;
+    private PersonConverter converter;
 
     public PersonVO create(PersonVO person) {
         Person entity = DozerConverter.parseObject(person, Person.class);
@@ -37,8 +37,6 @@ public class PersonService {
         Page<Person> page = repository.findPersonByName(firstName, pageable);
         return page.map(this::convertToPersonVO);
     }
-
-
 
     public PersonVO findById(Long id) {
         Person entity = repository.findById(id)

@@ -1,6 +1,7 @@
 package br.com.gianvittorio.exception.handler;
 
 import br.com.gianvittorio.exception.ExceptionResponse;
+import br.com.gianvittorio.exception.InvalidJwtAuthenticationException;
 import br.com.gianvittorio.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,5 +32,15 @@ public class MyCustomizedResponseEntityExceptionHandler extends ResponseEntityEx
                 request.getDescription(false));
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({InvalidJwtAuthenticationException.class})
+    public final ResponseEntity<ExceptionResponse> invalidJwtAuthenticationException(Exception ex, WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 }

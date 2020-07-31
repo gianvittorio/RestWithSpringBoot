@@ -9,6 +9,7 @@ import br.com.gianvittorio.data.model.Person;
 import br.com.gianvittorio.data.model.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -55,6 +56,16 @@ public class PersonService {
 
         PersonVO vo = DozerConverter.parseObject(repository.save(entity), PersonVO.class);
         return vo;
+    }
+
+    @Transactional
+    public PersonVO disablePerson(Long id) {
+        repository.disablePersons(id);
+
+        Person entity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for id " + id));
+
+        return DozerConverter.parseObject(entity, PersonVO.class);
     }
 
     public void delete(Long id) {

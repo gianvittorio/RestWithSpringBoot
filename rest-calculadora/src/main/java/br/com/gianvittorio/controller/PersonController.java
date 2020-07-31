@@ -66,6 +66,16 @@ public class PersonController {
         return personVO;
     }
 
+    @PatchMapping(
+            value = "/{id}",
+            produces = {"application/json", "application/xml", "application/x-yaml"}
+    )
+    public PersonVO disablePerson(@PathVariable("id") Long id) throws Exception {
+        PersonVO personVO = personService.disablePerson(id);
+        personVO.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+        return personVO;
+    }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         personService.delete(id);

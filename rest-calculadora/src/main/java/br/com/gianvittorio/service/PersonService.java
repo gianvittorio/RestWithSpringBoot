@@ -8,9 +8,14 @@ import br.com.gianvittorio.exception.ResourceNotFoundException;
 import br.com.gianvittorio.data.model.Person;
 import br.com.gianvittorio.data.model.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @Service
@@ -28,12 +33,12 @@ public class PersonService {
         return vo;
     }
 
-    public PersonVOV2 createV2(PersonVOV2 person) {
-        Person entity = converter.convertVOToEntity(person);
-
-        PersonVOV2 vo = converter.convertEntityToVO(repository.save(entity));
-        return vo;
+    public Page<PersonVO> findPersonByName(String firstName, Pageable pageable) {
+        Page<Person> page = repository.findPersonByName(firstName, pageable);
+        return page.map(this::convertToPersonVO);
     }
+
+
 
     public PersonVO findById(Long id) {
         Person entity = repository.findById(id)
@@ -42,8 +47,14 @@ public class PersonService {
         return DozerConverter.parseObject(entity, PersonVO.class);
     }
 
-    public List<PersonVO> findAll() {
-        return DozerConverter.parseListObjects(repository.findAll(), PersonVO.class);
+    public Page<PersonVO> findAll(Pageable pageable) {
+        Page<Person> page = repository.findAll(pageable);
+
+        return page.map(this::convertToPersonVO);
+    }
+
+    private PersonVO convertToPersonVO(Person entity) {
+        return DozerConverter.parseObject(entity, PersonVO.class);
     }
 
     public PersonVO update(PersonVO person) {

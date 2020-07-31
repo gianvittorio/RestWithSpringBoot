@@ -4,10 +4,19 @@ import br.com.gianvittorio.data.vo.v1.PersonVO;
 import br.com.gianvittorio.data.vo.v2.PersonVOV2;
 import br.com.gianvittorio.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -17,11 +26,26 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 //@CrossOrigin
 public class PersonController {
     @Autowired
-    PersonService personService;
+    private PersonService personService;
+
+    @Autowired
+    private PagedResourcesAssembler<PersonVO> assembler;
 
     @GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
-    public List<PersonVO> findAll() {
-        List<PersonVO> people = personService.findAll();
+    public ResponseEntity<?> findAll(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "limit", defaultValue = "12") int limit,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction) {
+        Map<String, Sort.Direction> directions = new HashMap<>();
+        directions.put("asc", Sort.Direction.ASC);
+        directions.put("desc", Sort.Direction.DESC);
+        Sort.Direction sortDirection = (directions.containsKey(direction.toLowerCase()))
+                ? (directions.get(direction))
+                : (Sort.Direction.ASC);
+
+        Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "firstName"));
+
+        Page<PersonVO> people = personService.findAll(pageable);
         people.forEach(p -> {
             try {
                 p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel());
@@ -29,7 +53,37 @@ public class PersonController {
             }
         });
 
-        return people;
+        PagedModel<?> resources = assembler.toModel(people);
+
+        return new ResponseEntity<>(resources, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/findPersonByName/{firstName}", produces = {"application/json", "application/xml", "application/x-yaml"})
+    public ResponseEntity<?> findPersonByName(
+            @PathVariable("firstName") String firstName,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "limit", defaultValue = "12") int limit,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction) {
+        Map<String, Sort.Direction> directions = new HashMap<>();
+        directions.put("asc", Sort.Direction.ASC);
+        directions.put("desc", Sort.Direction.DESC);
+        Sort.Direction sortDirection = (directions.containsKey(direction.toLowerCase()))
+                ? (directions.get(direction))
+                : (Sort.Direction.ASC);
+
+        Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "firstName"));
+
+        Page<PersonVO> people = personService.findPersonByName(firstName, pageable);
+        people.forEach(p -> {
+            try {
+                p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel());
+            } catch (Exception e) {
+            }
+        });
+
+        PagedModel<?> resources = assembler.toModel(people);
+
+        return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
     @GetMapping(
@@ -49,11 +103,6 @@ public class PersonController {
         PersonVO personVO = personService.create(person);
         personVO.add(linkTo(methodOn(PersonController.class).findById(personVO.getKey())).withSelfRel());
         return personVO;
-    }
-
-    @PostMapping("/v2")
-    public PersonVOV2 createV2(@RequestBody PersonVOV2 person) {
-        return personService.createV2(person);
     }
 
     @PutMapping(

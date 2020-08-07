@@ -20,13 +20,13 @@ services:
   rest-with-spring-boot:
     image: 080950/rest-with-spring-boot  
     restart: always      
-    build: ./rest-calculadora
-    working_dir: /rest-calculadora 
+    build: ./users_simple_register
+    working_dir: /users_simple_register 
     environment:
       TZ: America/Sao_Paulo
       SPRING_BOOT_ENVIRONMENT: Production
     volumes:
-      - ./rest-calculadora:/rest-calculadora
+      - ./users_simple_register:/users_simple_register
       - ~/.m2:/root/.m2
     ports:
       - "8080:8080"
